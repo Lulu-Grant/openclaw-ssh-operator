@@ -1,51 +1,71 @@
 # OpenClaw SSH Operator
 
-A reusable **OpenClaw skill** for authorized SSH diagnostics and remote operations.
+[![OpenClaw Skill](https://img.shields.io/badge/OpenClaw-Skill-4ade80?style=flat-square)](https://github.com/Lulu-Grant/openclaw-ssh-operator)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](./LICENSE)
+[![Status: Template](https://img.shields.io/badge/status-template-purple?style=flat-square)](https://github.com/Lulu-Grant/openclaw-ssh-operator)
 
-It is designed for people who regularly ask OpenClaw to:
-- connect to servers via SSH
-- inspect logs and service health
+A reusable **OpenClaw skill** for authorized SSH diagnostics and remote operations, with:
+
+- **readonly** mode for inspection and troubleshooting
+- **write** mode for standard operational changes
+- **dangerous** mode for high-impact actions with confirmation
+- **host aliases** so users can work with names like `prod-main` or `wp-server`
+
+---
+
+## Why this project exists
+
+In real OpenClaw usage, SSH-heavy workflows often become unreliable for two reasons:
+
+1. the agent may not consistently recall the right tool/skill path
+2. the model may become overly cautious and avoid clearly authorized operator tasks
+
+This project is a reusable attempt to make SSH workflows inside OpenClaw more stable, explicit, and operator-friendly.
+
+---
+
+## What this skill is for
+
+Use this skill when you want OpenClaw to do things like:
+
+- connect to a server via SSH
+- inspect logs and service status
 - diagnose production or staging issues
-- perform normal remote admin actions
-- handle write operations with clearer action tiers
+- check disk / memory / CPU / networking
+- restart services
+- update configs
+- perform normal remote admin tasks
 
-This project exists to make SSH-based workflows more reliable and less likely to be derailed by vague tool recall or overly cautious model behavior.
+Typical prompts:
 
----
+```text
+ssh into prod-main and inspect nginx
+check wp-server logs
+look at disk usage on db01
+restart nginx on hk-web
+connect to docker-node and inspect containers
+```
 
-## Why this exists
+Chinese-style prompts also fit naturally:
 
-In real OpenClaw usage, SSH-heavy workflows can become unstable for two reasons:
-
-1. the agent may not reliably recall the right skill/tool path
-2. the model may become overly cautious and avoid normal, explicitly authorized operator tasks
-
-This skill is an attempt to create a stronger, more reusable SSH operator entry point for trusted infrastructure work.
-
----
-
-## What it does
-
-OpenClaw SSH Operator provides a structured SSH operations skill with:
-
-- **Readonly mode** for diagnostics and inspection
-- **Write mode** for normal operational changes
-- **Dangerous mode** for destructive or high-impact actions
-- **Host aliases** so users can say things like:
-  - `go check prod-main`
-  - `inspect wp-server logs`
-  - `restart nginx on docker-node`
+```text
+去 prod-main 看看
+检查 wp-server 日志
+去 db01 查磁盘
+重启 hk-web 上的 nginx
+SSH 上去排查 docker-node
+```
 
 ---
 
 ## Features
 
-- Unified SSH operations skill for OpenClaw
-- Explicit support for authorized infrastructure workflows
+- Unified SSH operator skill for OpenClaw
+- Explicit support for **trusted infrastructure workflows**
 - Read / write / dangerous action tiers
-- Editable host alias config via `hosts.json`
-- Reusable template for personal or team setups
-- Friendly starting point for building more opinionated SSH/admin skills
+- Editable host aliases via `hosts.json`
+- Easy to adapt for personal or team setups
+- Good foundation for more opinionated server / Docker / WordPress / DevOps skills
 
 ---
 
@@ -133,12 +153,25 @@ Dangerous actions should require explicit confirmation.
 
 You can use this project as a standalone template or copy it into an OpenClaw skills directory.
 
-Typical pattern:
+### Option A — use as a repo template
 
-1. clone the repo
-2. edit `hosts.json`
-3. copy or link the skill into your OpenClaw `skills/` directory
-4. adapt `SKILL.md` to your own environment if needed
+1. Clone this repo
+2. Edit `hosts.json`
+3. Adapt `SKILL.md` to your own environment if needed
+4. Copy the folder into your OpenClaw `skills/` directory
+
+### Option B — direct local install
+
+```bash
+git clone https://github.com/Lulu-Grant/openclaw-ssh-operator.git
+cp -R openclaw-ssh-operator /path/to/your/openclaw/skills/
+```
+
+Then edit:
+
+```bash
+/path/to/your/openclaw/skills/openclaw-ssh-operator/hosts.json
+```
 
 ---
 
@@ -171,6 +204,18 @@ You can also add:
 
 ---
 
+## Example alias sets
+
+Good starting aliases:
+- `prod-main`
+- `staging`
+- `hk-web`
+- `wp-server`
+- `db01`
+- `docker-node`
+
+---
+
 ## Roadmap ideas
 
 Possible future improvements:
@@ -179,6 +224,7 @@ Possible future improvements:
 - host groups and environment grouping
 - more structured write/dangerous confirmation flows
 - installation helper for OpenClaw users
+- optional screenshots / demos
 
 ---
 
